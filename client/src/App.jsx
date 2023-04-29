@@ -1,33 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { lazy, Suspense, useContext, useEffect, useState } from 'react'
+import Loading from './components/Loading.jsx'
+import { Routes, Route, useNavigate } from 'react-router-dom'
+import { AuthData } from './context/AuthContext.jsx'
+import Header from './components/Header/Header.jsx'
+const Profile = lazy(() => import('./pages/Profile'))
+const VendorDashboard = lazy(() => import('./pages/VendorDashboard'))
+const Signup = lazy(() => import('./pages/Signup'))
+const Login = lazy(() => import('./pages/Login'))
+const Home = lazy(() => import('./pages/Home/Home'))
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
+  const navigate = useNavigate()
+  const { isLoggedIn } = useContext(AuthData)
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      navigate('/')
+    }
+  }, [])
   return (
+
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {
+        isLoggedIn && <Header />
+      }
+      <Suspense fallback={<Loading />}>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/vendor-dashboard' element={<VendorDashboard />} />
+          <Route path='/profile' element={<Profile />} />
+        </Routes>
+      </Suspense>
     </>
   )
 }

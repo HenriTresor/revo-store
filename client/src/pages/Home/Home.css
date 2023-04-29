@@ -1,0 +1,12 @@
+.home-container{
+    margin-top: 4em;
+    padding: 1em 2em;
+}
+.product-card{
+    /* height: 200px !important; */
+}
+.product-card img{
+    width: 100%;
+    /* height: 10%; */
+    object-fit:fill;
+}

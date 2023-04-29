@@ -7,6 +7,7 @@ import { checkUserByEmail } from "../utils/functions.js"
 
 export const createUser = async (req, res, next) => {
     try {
+        // console.log(req.body);
         let { email, password, role, fullNames } = req.body
         let { error, value } = userValidObj.validate({ email, fullNames, password, role })
         if (error) {
@@ -35,3 +36,19 @@ export const createUser = async (req, res, next) => {
         next(errorResponse(error.message, 500))
     }
 }
+
+export const getMe = async (req, res, next) => {
+    try {
+        let { userId } = req
+        let user = await User.findById(userId)
+        if (!user) return next(errorResponse(`user with id ${userId} was not found
+        `))
+        console.log(user);
+        res.status(200).json({
+            status: true,
+            user: _.pick(user, ['email', 'fullNames', 'role'])
+        })
+    } catch (error) {
+        next(errorResponse(error.message, 500))
+    }
+} 
