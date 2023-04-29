@@ -4,21 +4,28 @@ import './Home.css'
 import {
     Container, Box, Typography, Button,
     Select, MenuItem, InputLabel,
-    Slider, Stack, Drawer, Card, Grid
+    Slider, Stack, Drawer, Card, Grid,
+    Rating
 } from '@mui/material'
 
 import {
     ChevronLeft,
     ChevronRight,
-    FilterList
+    FilterList,
+    ShoppingCartRounded,
+    ViewCarouselRounded
 } from '@mui/icons-material'
 import useFetch from '../../hooks/useFetch'
 import { rootLink } from '../../utils/links'
+import { AppData } from '../../context/AppContext'
 
 const Home = () => {
+
     const { currentUser, isLoggedIn } = useContext(AuthData)
+    const { setCartItemsNumber, setCart, cart } = useContext(AppData)
     // const [isDrawerOpen, setIsDrawerOpen] = useState(true)
     const [products, setProducts] = useState([])
+    const [newProducts, setNewProducts] = useState([])
     const [priceValues, setPriceValues] = useState({
         min: 3,
         max: 10
@@ -29,8 +36,15 @@ const Home = () => {
     useEffect(() => {
         // console.log(data);
         setProducts(data?.products)
-    },[data])
-    const handlePriceChange = (e) => {
+    }, [data])
+    useEffect(() => {
+        setNewProducts(products?.map(product => {
+            return { ...product, addedToCart: false }
+        }))
+    }, [products])
+
+    
+    const handlePriceChange = (e, newValue) => {
         setPriceValues({ ...priceValues, [e.target.name]: e.target.value })
     }
     return (
@@ -43,146 +57,172 @@ const Home = () => {
                     justifyContent: 'start'
                 }}
             >
-                <Drawer
-                    variant='persistent'
-                    open
-                    // open={isDrawerOpen}
-                    sx={{
-                        height: '100%',
-                        zIndex: '-1',
-                        width: '100%',
-
-
-                    }}
+                <Box
+                    className='body-top'
                 >
-                    f
+
                     <Box
                         sx={{
-                            p: 1,
-                            mt: 14
-                            // width:"100%"
+                            display: 'flex',
+                            gap: 2,
+                            alignItems: 'center'
                         }}
                     >
-
+                        <Typography>
+                            Price range:
+                        </Typography>
                         <Box>
-                            <Typography
-                                sx={{ display: 'flex', gap: 3, mb: 5 }}
-                            >
-                                <FilterList />
-                                Filters
+                            <Typography>
+                                min: ${priceValues.min}
                             </Typography>
-
+                            <Slider
+                                valueLabelDisplay='auto'
+                                sx={{
+                                    width: '100px'
+                                }}
+                                onChange={(e) => handlePriceChange(e)}
+                                value={priceValues.min}
+                                name='min'
+                                max={parseInt(priceValues.max)}
+                            />
                         </Box>
                         <Box>
                             <Typography>
-                                Price range
+                                max: ${priceValues.max}
                             </Typography>
-                            <Typography>
-                                ${priceValues?.min} -  ${priceValues?.max}
-                            </Typography>
-                            <Stack direction={'row'}
+                            <Slider
+                                valueLabelDisplay='auto'
                                 sx={{
-                                    display: 'flex',
-                                    gap: 3, padding: 0, height: '100px'
+                                    width: '100px'
                                 }}
-                            >
-                                <Slider
-                                    orientation='vertical'
-                                    name='min'
-                                    size='small'
-
-                                    max={priceValues?.max}
-                                    onChange={(e) => handlePriceChange(e)}
-                                    value={priceValues?.min}
-                                    valueLabelDisplay='auto'
-                                ></Slider>
-                                <Slider
-                                    orientation='vertical'
-                                    name='max'
-                                    size='small'
-                                    // min={priceValues.min}
-                                    value={priceValues?.max}
-                                    max='100000'
-                                    onChange={(e) => handlePriceChange(e)}
-                                    valueLabelDisplay='auto'
-                                >
-
-                                </Slider>
-                            </Stack>
+                                onChange={(e) => handlePriceChange(e)}
+                                value={priceValues.max}
+                                max='200000'
+                                name='max'
+                            />
                         </Box>
                     </Box>
-                </Drawer>
-               
+                </Box>
             </Box>
             <Box
                 sx={{
                     // background: 'lightgrey',
-                    width: '80%',
+                    width: '100%',
                     height: 'auto',
                     float: 'right',
-                    position: 'absolute',
+                    // position: 'absolute',
                     right: '0',
-                    padding:1
+                    padding: 1,
+                    mt: 20
                 }}
             >
                 <Grid container spacing={1}>
-                     {
-                    products?.map(product => {
-                        return (
-                            <Grid
-                                item
-                                sm={4}
-                                key={product?._id}
-                            >
-                                <Card
-                                    className='product-card'
-                                    sx={{
-                                        padding:1
-                                    }}
-                                    variant='outlined'
-                                    
+                    {
+                        products?.map(product => {
+                            console.log(product);
+                            return (
+                                <Grid
+                                    item
+                                    xs={12} sm={6} md={4}
+                                    key={product?._id}
                                 >
-                                    <img
-                                    src={product?.images[0]}
-                                    />
-                                    <Box
+                                    <Card
+                                        className='product-card'
                                         sx={{
-                                            display: 'flex',
-                                            gap: 1,
-                                            mb:4
-                                    }}
-                                    >
-                                        <Typography>
-                                            {product?.title}
-                                        </Typography>
-                                        <Typography
-                                        variant='body3'
-                                        >
-                                            {` in stock(${product?.stock})`}
-                                        </Typography>
-                                   </Box>
-                                    <Typography>
-                                        {product?.description?.slice(0,20)} ...
-                                    </Typography>
-                                    <Box
-                                        sx={{
-                                        display:'flex'
-                                    }}
-                                    >
-                                        <Typography>
-                                            cost: ${product?.price}
-                                        </Typography>
-                                        <Typography>
-                                            discount {product?.discountPercentage}%
-                                        </Typography>
-                                 </Box>
-                                    </Card>
-                           </Grid>
-                        )
-                    })
-                }
+                                            padding: 1
+                                        }}
+                                        elevation={4}
 
-               </Grid>
+                                    >
+                                        <img
+                                            src={product?.images[0]}
+                                        />
+                                        <Box
+
+                                        >
+                                            <Typography>
+                                                {product?.title}
+                                            </Typography>
+                                            <Typography
+                                                variant='body3'
+                                                sx={{
+                                                    marginBottom: 4
+                                                }}
+                                            >
+                                                {` in stock(${product?.stock})`}
+                                            </Typography>
+                                        </Box>
+
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                mt: 2,
+                                                mb: 2,
+                                                gap: 2
+                                            }}
+                                        >
+                                            <Typography className={product?.discountPercentage !== 0 && 'price-txt'}>
+                                                cost: ${product?.price}
+                                            </Typography>
+                                            <Typography
+                                                variant='h6'
+                                            >
+                                                {
+                                                    (product?.price - ((product?.price * product?.discountPercentage) / 100)).toFixed(2)
+                                                }$
+                                            </Typography>
+                                        </Box>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                gap: 2,
+                                                mb: 4
+                                            }}
+                                        >
+                                            <Rating
+                                                aria-readonly
+                                                readOnly
+                                                precision={0.5}
+                                                value={product?.rating}
+                                            />
+                                            <Typography>
+                                                {product?.rating}
+                                            </Typography>
+                                        </Box>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                gap: 2
+                                            }}
+                                        >
+                                            <Button
+                                                disabled={product?.addedToCart}
+                                                onClick={() => {
+                                                    setCartItemsNumber(prev => prev + 1)
+                                                    localStorage.setItem('cart', JSON.stringify([...JSON.parse(localStorage.getItem('cart')), { ...product, addedToCart: true }]))
+                                                    setCart(prev => [...prev, product])
+                                                }}
+                                                color='info'
+                                                variant='contained'
+                                                startIcon={<ShoppingCartRounded />}
+                                            >
+                                                add to cart
+                                            </Button>
+                                            <Button
+                                                variant='outlined'
+                                                color='primary'
+                                                startIcon={<ViewCarouselRounded />}
+                                            >
+                                                view
+                                            </Button>
+                                        </Box>
+                                    </Card>
+                                </Grid>
+                            )
+                        })
+                    }
+
+                </Grid>
             </Box>
         </Container>
     )

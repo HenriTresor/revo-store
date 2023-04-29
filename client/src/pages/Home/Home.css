@@ -7,6 +7,10 @@
 }
 .product-card img{
     width: 100%;
-    /* height: 10%; */
-    object-fit:fill;
+    height:200px;
+    object-fit:contain;
+}
+
+.price-txt{
+    text-decoration: line-through;
 }

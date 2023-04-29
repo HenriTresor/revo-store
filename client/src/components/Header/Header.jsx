@@ -11,13 +11,15 @@ import {
     Stack, Avatar,
     Typography, Button,
     ListItem, ListItemAvatar, ListItemButton,
-    ListItemText
+    ListItemText, Badge
 } from '@mui/material'
 import { AuthData } from '../../context/AuthContext'
 import './Header.css'
+import { AppData } from '../../context/AppContext'
 
 const Header = () => {
     const { currentUser, isLoggedIn } = useContext(AuthData)
+    const { cartItemsNumber } = useContext(AppData)
     return (
         <div
             className='header'
@@ -58,7 +60,14 @@ const Header = () => {
                     </li>
 
                     <li>
-                        <ShoppingCartRounded />
+                        <Badge
+                        // value={3}
+                            badgeContent={cartItemsNumber}
+                            showZero
+                            color='primary'
+                        >
+                            <ShoppingCartRounded />
+                        </Badge>
                     </li>
 
                     {

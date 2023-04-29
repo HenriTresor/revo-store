@@ -1,14 +1,16 @@
 .header{
     color: rgb(116, 112, 112);
     padding: 1em;
-    position: sticky;
-    -webkit-postion:sticky;
+    position: fixed;
+    width: 100%;
+    /* -webkit-postion:sticky; */
     top:0;
     left: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    background: rgba(241, 241, 241, 0.807);
+    justify-content: space-around;
+    z-index: 99;
+    background: rgba(241, 241, 241, 0.884);
 }
 
 .header li{
@@ -34,4 +36,22 @@
     padding: 1em;
     outline: none;
     color: black;
+}
+
+.body-top{
+    padding: 2em;
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    background-color: #fff;
+    z-index: 9;
+    top:auto ;
+}
+
+@media screen and (max-width:600px) {
+    .header input{
+        display: none;
+    }
 }
