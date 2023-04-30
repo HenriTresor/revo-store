@@ -32,6 +32,7 @@ export const getSingleProduct = async (req, res, next) => {
 export const getProductsByCategory = async (req, res, next) => {
     try {
         let { category } = req.query
+        console.log(category);
         let products = await Product.find({ category: category }).populate('vendor')
         if (!products) return next(errorResponse("no products in this category", 404))
         res.status(200).json({ status: true, products });

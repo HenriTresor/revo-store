@@ -12,12 +12,14 @@ import {
 } from '@mui/material'
 import propTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
+import { AuthData } from '../context/AuthContext'
 
 const ProductCard = (props) => {
 
     const navigate = useNavigate()
     // console.log(props);
     const { setCartItemsNumber, setCart, cart } = useContext(AppData)
+    const { isLoggedIn } = useContext(AuthData)
 
 
     return (
@@ -89,14 +91,26 @@ const ProductCard = (props) => {
                         {props?.rating}
                     </Typography>
                 </Box>
+                {
+                    !isLoggedIn && (
+                        <Box
+                        sx={{p:1}}
+                        >
+                            <Typography
+                            color='error'
+                            >You need to login to add to cart!</Typography>
+                        </Box>
+                    )
+                }
                 <Box
                     sx={{
                         display: 'flex',
                         gap: 2
                     }}
                 >
+                    
                     <Button
-                        disabled={cart?.find(cartItem => cartItem?._id === props?._id)}
+                        disabled={cart?.find(cartItem => cartItem?._id === props?._id) || !isLoggedIn}
                         onClick={() => {
                             setCartItemsNumber(prev => prev + 1)
                             localStorage.setItem('cart', JSON.stringify([...JSON.parse(localStorage.getItem('cart')), { ...props, addedToCart: true, no: 1 }]))
@@ -134,7 +148,7 @@ ProductCard.propTypes = {
     price: propTypes.number.isRequired,
     discountPercentage: propTypes.number.isRequired,
     title: propTypes.string.isRequired,
-    images: propTypes.string
+    images: propTypes.array
 }
 
 export default ProductCard

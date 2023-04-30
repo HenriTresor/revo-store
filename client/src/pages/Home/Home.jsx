@@ -48,59 +48,7 @@ const Home = () => {
         <Container
             className='home-container'
         >
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'start'
-                }}
-            >
-                <Box
-                    className='body-top'
-                >
-
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            gap: 2,
-                            alignItems: 'center'
-                        }}
-                    >
-                        <Typography>
-                            Price range:
-                        </Typography>
-                        <Box>
-                            <Typography>
-                                min: ${priceValues.min}
-                            </Typography>
-                            <Slider
-                                valueLabelDisplay='auto'
-                                sx={{
-                                    width: '100px'
-                                }}
-                                onChange={(e) => handlePriceChange(e)}
-                                value={priceValues.min}
-                                name='min'
-                                max={parseInt(priceValues.max)}
-                            />
-                        </Box>
-                        <Box>
-                            <Typography>
-                                max: ${priceValues.max}
-                            </Typography>
-                            <Slider
-                                valueLabelDisplay='auto'
-                                sx={{
-                                    width: '100px'
-                                }}
-                                onChange={(e) => handlePriceChange(e)}
-                                value={priceValues.max}
-                                max='200000'
-                                name='max'
-                            />
-                        </Box>
-                    </Box>
-                </Box>
-            </Box>
+           
             <Box
                 sx={{
                     // background: 'lightgrey',

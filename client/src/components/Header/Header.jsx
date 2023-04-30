@@ -18,7 +18,7 @@ import './Header.css'
 import { AppData } from '../../context/AppContext'
 
 const Header = () => {
-    const { currentUser, isLoggedIn } = useContext(AuthData)
+    const { currentUser, isLoggedIn, setIsLoggedIn, setCurrentUser } = useContext(AuthData)
     const { cartItemsNumber } = useContext(AppData)
     return (
         <div
@@ -62,44 +62,66 @@ const Header = () => {
                     <li id='category-li'>
                         <CategoryRounded />
                         <div className="dropdown">
-                            <li>Laptops</li>
-                            <li>Phones</li>
-                            <li>Fragrances</li>
-                            <li>Home decorations</li>
-                            <li>Groceries</li>
-                            <li>skin care</li>
+                            <Link to='/products/category/?category=laptops'>
+                                <li>Laptops</li>
+                            </Link>
+                            <Link to='/products/category/?category=smartphones'>
+                                <li>Smartphones</li>
+                            </Link>
+                            <Link to='/products/category/?category=fragrances'>
+                                <li>Fragrances</li>
+                            </Link>
+                            <Link to='/products/category/?category=home-decoration'>
+                                <li>Home decorations</li>
+                            </Link>
+                            <Link to='/products/category/?category=groceries'>
+                                <li>Groceries</li>
+                            </Link>
+                            <Link to='/products/category/?category=skincare'>
+                                <li>skin care</li>
+                            </Link>
                         </div>
                     </li>
 
-                    <Link to='/my-cart'>
-                        <li>
-                            <Badge
-                                // value={3}
-                                badgeContent={cartItemsNumber}
-                                showZero
-                                color='primary'
-                            >
-                                <ShoppingCartRounded />
-                            </Badge>
-                        </li>
-                    </Link>
+                    {
+                        isLoggedIn && (
+                            <Link to='/my-cart'>
+                                <li>
+                                    <Badge
+                                        // value={3}
+                                        badgeContent={cartItemsNumber}
+                                        showZero
+                                        color='primary'
+                                    >
+                                        <ShoppingCartRounded />
+                                    </Badge>
+                                </li>
+                            </Link>
+                        )
+                    }
 
                     {
                         isLoggedIn ? (
                             <Box className='button-box'>
-                                
+
                                 <Button
                                     color='inherit'
                                 >
-                                   {currentUser?.fullNames?.split(' ')[0]}
+                                    {currentUser?.fullNames?.split(' ')[0]}
                                 </Button>
                                 <div
-                                className='dropdown'
+                                    className='dropdown'
                                 >
                                     <li>view profile</li>
-                                    <li style={{border:'1px solid red', color:'red'}}>Logout</li>
+                                    <li
+                                        onClick={() => {
+                                            localStorage.clear('token')
+                                            setCurrentUser(null)
+                                            setIsLoggedIn(false)
+                                        }}
+                                        style={{ border: '1px solid red', color: 'red' }}>Logout</li>
                                 </div>
-                           </Box>
+                            </Box>
                         ) : (
                             <Link to='/login'>
                                 <Button>

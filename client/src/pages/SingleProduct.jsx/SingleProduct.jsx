@@ -18,9 +18,11 @@ import {
     ViewCarouselRounded
 } from '@mui/icons-material'
 import ProductCard from '../../components/ProductCard'
+import { AuthData } from '../../context/AuthContext'
 
 const SingleProduct = () => {
     const { setCartItemsNumber, setCart, cart } = useContext(AppData)
+    const { isLoggedIn } = useContext(AuthData)
     const { id } = useParams()
     const [product, setProduct] = useState(null)
     const [similarProducts, setSimilarProducts] = useState([])
@@ -40,7 +42,7 @@ const SingleProduct = () => {
             style={{ display: 'grid', placeContent: 'center', }}
             className='home-container'
         >
-            
+
             {
                 isLoading ? (
                     <Loading />
@@ -152,15 +154,27 @@ const SingleProduct = () => {
                                     <Typography>
                                         {product?.rating}
                                     </Typography>
-                                </Box>
+                                        </Box>
+                                        {
+                                            !isLoggedIn && (
+                                                <Box
+                                                    sx={{ p: 1 }}
+                                                >
+                                                    <Typography
+                                                        color='error'
+                                                    >You need to login to add to cart!</Typography>
+                                                </Box>
+                                            )
+                                        }
                                 <Box
                                     sx={{
                                         display: 'flex',
                                         gap: 2
                                     }}
-                                >
+                                        >
+                                            
                                     <Button
-                                        disabled={cart?.find(cartItem => cartItem?._id === product?._id)}
+                                        disabled={cart?.find(cartItem => cartItem?._id === product?._id) || !isLoggedIn}
                                         onClick={() => {
                                             setCartItemsNumber(prev => prev + 1)
                                             localStorage.setItem('cart', JSON.stringify([...JSON.parse(localStorage.getItem('cart')), { ...product, addedToCart: true }]))
@@ -176,24 +190,24 @@ const SingleProduct = () => {
                                 </Box>
                             </Card>
                         </Grid>
-                                <Grid item sm={12}>
-                                    <Typography
-                                        variant="h5"
-                                        sx={{mb:4, mt:4}}
-                                    >
-                                        Similar products
-                                    </Typography>
-                                    <Grid container spacing={2}>
-                                        {
+                        <Grid item sm={12}>
+                            <Typography
+                                variant="h5"
+                                sx={{ mb: 4, mt: 4 }}
+                            >
+                                Similar products
+                            </Typography>
+                            <Grid container spacing={2}>
+                                {
 
-                                            similarProducts?.map(similarProduct => {
-                                               if(similarProduct?._id === product?._id) return null
-                                                return (
-                                                    <ProductCard {...similarProduct} key={similarProduct?._id} />
-                                                )
-                                            })
-                                        }
-                           </Grid>
+                                    similarProducts?.map(similarProduct => {
+                                        if (similarProduct?._id === product?._id) return null
+                                        return (
+                                            <ProductCard {...similarProduct} key={similarProduct?._id} />
+                                        )
+                                    })
+                                }
+                            </Grid>
                         </Grid>
                     </Grid>
                 )

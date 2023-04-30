@@ -4,6 +4,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom'
 import { AuthData } from './context/AuthContext.jsx'
 import Header from './components/Header/Header.jsx'
 import UserCart from './pages/UserCart/UserCart.jsx'
+import ProductsByCategory from './pages/ProductsByCategory/ProductsByCategory.jsx'
 const Profile = lazy(() => import('./pages/Profile'))
 const VendorDashboard = lazy(() => import('./pages/VendorDashboard'))
 const Signup = lazy(() => import('./pages/Signup'))
@@ -16,17 +17,17 @@ function App() {
 
   const navigate = useNavigate()
   const { isLoggedIn } = useContext(AuthData)
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      navigate('/')
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (localStorage.getItem('token')) {
+  //     navigate('/')
+  //   }
+  // }, [isLoggedIn])
   return (
 
     <>
-      {
+ 
         isLoggedIn && <Header />
-      }
+  
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path='/login' element={<Login />} />
@@ -35,6 +36,7 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/products/:id' element={<SingleProduct />} />
           <Route path='/my-cart' element={<UserCart />} />
+          <Route path='/products/category' element={<ProductsByCategory />} />
           <Route path='/' exact element={<Home />} />
         </Routes>
       </Suspense>
