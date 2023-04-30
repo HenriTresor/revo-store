@@ -18,11 +18,14 @@ const useFetch = (url, token) => {
                 "authorization": `Bearer ${token ? token : null}`
             }
         }).then((res) => {
+            setIsLoading(false)
             setData(res.data)
+            setError({ isError: false, errMsg: "" })
         }).catch((err) => {
+            setIsLoading(false)
             setError({ isError: true, errMsg: err.message })
         })
-    }, [url])
+    }, [url, token])
     return {
         data,
         isLoading,

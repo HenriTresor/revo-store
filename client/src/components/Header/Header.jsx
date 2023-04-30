@@ -25,11 +25,13 @@ const Header = () => {
             className='header'
         >
             <div>
-                <Typography
-                    variant='h5'
-                >
-                    Brand
-                </Typography>
+                <Link to='/'>
+                    <Typography
+                        variant='h5'
+                    >
+                        REVO
+                    </Typography>
+                </Link>
             </div>
             <div>
                 <div className='srch-div'>
@@ -39,44 +41,65 @@ const Header = () => {
                     />
                     <Button
                         sx={{
-                        outline:'none'
-                    }}
+                            outline: 'none'
+                        }}
                     >
                         <Search />
                     </Button>
-              </div>
+                </div>
             </div>
             <div>
                 <Stack
                     direction='row'
                     spacing={2}
                 >
-                    <li>
-                        <HomeRounded />
-                    </li>
+                    <Link to='/'>
+                        <li>
+                            <HomeRounded />
+                        </li>
+                    </Link>
 
-                    <li>
+                    <li id='category-li'>
                         <CategoryRounded />
+                        <div className="dropdown">
+                            <li>Laptops</li>
+                            <li>Phones</li>
+                            <li>Fragrances</li>
+                            <li>Home decorations</li>
+                            <li>Groceries</li>
+                            <li>skin care</li>
+                        </div>
                     </li>
 
-                    <li>
-                        <Badge
-                        // value={3}
-                            badgeContent={cartItemsNumber}
-                            showZero
-                            color='primary'
-                        >
-                            <ShoppingCartRounded />
-                        </Badge>
-                    </li>
+                    <Link to='/my-cart'>
+                        <li>
+                            <Badge
+                                // value={3}
+                                badgeContent={cartItemsNumber}
+                                showZero
+                                color='primary'
+                            >
+                                <ShoppingCartRounded />
+                            </Badge>
+                        </li>
+                    </Link>
 
                     {
                         isLoggedIn ? (
-                            <Button
-                                color='inherit'
-                            >
-                                profile
-                            </Button>
+                            <Box className='button-box'>
+                                
+                                <Button
+                                    color='inherit'
+                                >
+                                   {currentUser?.fullNames?.split(' ')[0]}
+                                </Button>
+                                <div
+                                className='dropdown'
+                                >
+                                    <li>view profile</li>
+                                    <li style={{border:'1px solid red', color:'red'}}>Logout</li>
+                                </div>
+                           </Box>
                         ) : (
                             <Link to='/login'>
                                 <Button>
