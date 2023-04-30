@@ -39,7 +39,7 @@ const SingleProduct = () => {
     }, [second_data])
     return (
         <div
-            style={{ display: 'grid', placeContent: 'center', }}
+            style={{ display: 'grid', placeContent: 'center' }}
             className='home-container'
         >
 
@@ -92,7 +92,7 @@ const SingleProduct = () => {
                         <Grid item xs={12} sm={6} md={4}>
                             <Card
                                 variant='outlined'
-                                sx={{ p: 4 }}
+                                sx={{ p: 4, mt:5 }}
                             >
                                 <Typography
                                     variant='h5'
