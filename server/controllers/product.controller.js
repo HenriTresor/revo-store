@@ -22,7 +22,7 @@ export const getSingleProduct = async (req, res, next) => {
 
         let { id } = req.params
         let product = await Product.findOne({ _id: id }).populate('vendor')
-        // if (!product) return next(errorResponse("product was not found", 404))
+        if (!product) return next(errorResponse("product was not found", 404))
 
         res.status(200).json({ status: true, product })
     } catch (error) {
