@@ -50,7 +50,7 @@ const SingleProduct = () => {
                     <Grid
                         container
                         spacing={2}
-
+                        sx={{mt:6}}
                     >
                         <Grid item xs={12} sm={6} md={4}>
                             <Card
@@ -59,30 +59,9 @@ const SingleProduct = () => {
                             >
 
                                 <Grid container spacing={2}>
-                                    <Grid item sm={4}>
-                                        <img
-                                            src={product && product?.images[0]}
-                                        />
-                                    </Grid>
-                                    <Grid item sm={4}>
-                                        <img
-                                            src={product && product?.images[1]}
-                                        />
-                                    </Grid>
-                                    <Grid item sm={4}>
-                                        <img
-                                            src={product && product?.images[2]}
-                                        />
-                                    </Grid>
                                     <Grid item sm={12}>
-                                        <img
-                                            src={product && product?.images[3]}
-                                        />
-                                    </Grid>
-                                    <Grid item sm={12}>
-                                        <img
-                                            src={product && product?.images[4]}
-                                        />
+                                        <img src={product && product?.image} />
+
                                     </Grid>
                                 </Grid>
                             </Card>
@@ -90,7 +69,7 @@ const SingleProduct = () => {
                         <Grid item xs={12} sm={6} md={4}>
                             <Card
                                 variant='outlined'
-                                sx={{ p: 4, mt: 5 }}
+                                sx={{ p: 4, mt: 0 }}
                             >
                                 <Typography
                                     variant='h5'
@@ -123,22 +102,26 @@ const SingleProduct = () => {
                                         gap: 2
                                     }}
                                 >
-                                    <Typography className={product?.discountPercentage !== 0 && 'price-txt'}>
+                                    <Typography className={product?.discountPercentage  && 'price-txt'}>
                                         cost: ${product?.price}
                                     </Typography>
-                                    <Typography
-                                        variant='h6'
-                                    >
-                                        {
-                                            (product?.price - ((product?.price * product?.discountPercentage) / 100)).toFixed(2)
-                                        }$
-                                    </Typography>
+                                    {
+                                        product?.discountPercentage && (
+                                            <Typography
+                                                variant='h6'
+                                            >
+                                                {
+                                                    (product?.price - ((product?.price * product?.discountPercentage) / 100)).toFixed(2)
+                                                }$
+                                            </Typography>
+                                        )
+                                   }
                                 </Box>
                                 <Box
                                     sx={{
                                         display: 'flex',
                                         gap: 2,
-                                        mb: 4
+                                        mb: 2
                                     }}
                                 >
                                     {
@@ -146,11 +129,11 @@ const SingleProduct = () => {
                                             aria-readonly
 
                                             precision={0.5}
-                                            value={product?.rating}
+                                            value={product?.rating?.rate}
                                         />)
                                     }
                                     <Typography>
-                                        {product?.rating}
+                                        {product?.rating?.rate}
                                     </Typography>
                                 </Box>
                                 {

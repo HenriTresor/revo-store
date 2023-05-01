@@ -67,7 +67,7 @@ const Home = () => {
                         <Loading />
                         ) : (
                         products?.map(product => {
-                            // console.log(product);
+                            console.log(product);
                             return (
                               <ProductCard {...product} key={product?._id}/>
                             )

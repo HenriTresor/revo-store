@@ -17,9 +17,9 @@ import { AuthData } from '../context/AuthContext'
 const ProductCard = (props) => {
 
     const navigate = useNavigate()
-    // console.log(props);
     const { setCartItemsNumber, setCart, cart } = useContext(AppData)
     const { isLoggedIn } = useContext(AuthData)
+    console.log(props);
 
 
     return (
@@ -37,7 +37,7 @@ const ProductCard = (props) => {
 
             >
                 <img
-                    src={props?.images[0]}
+                    src={props?.images[3] || props?.image}
                 />
                 <Box
 
@@ -63,16 +63,20 @@ const ProductCard = (props) => {
                         gap: 2
                     }}
                 >
-                    <Typography className={props?.discountPercentage !== 0 && 'price-txt'}>
+                    <Typography className={props?.discountPercentage && 'price-txt'}>
                         cost: ${props?.price}
                     </Typography>
-                    <Typography
-                        variant='h6'
-                    >
-                        {
-                            (props?.price - ((props?.price * props?.discountPercentage) / 100)).toFixed(2)
-                        }$
-                    </Typography>
+                    {
+                        props?.discountPercentage && (
+                            <Typography
+                                variant='h6'
+                            >
+                                {
+                                    (props?.price - ((props?.price * props?.discountPercentage) / 100)).toFixed(2)
+                                }$
+                            </Typography>
+                        )
+                   }
                 </Box>
                 <Box
                     sx={{
@@ -85,10 +89,10 @@ const ProductCard = (props) => {
                         aria-readonly
                         readOnly
                         precision={0.5}
-                        value={props?.rating}
+                        value={props?.rating?.rate || props?.rating}
                     />
                     <Typography>
-                        {props?.rating}
+                        {props?.rating?.rate || props?.rating}
                     </Typography>
                 </Box>
                 {
@@ -142,13 +146,14 @@ const ProductCard = (props) => {
 }
 
 ProductCard.propTypes = {
-    _id: propTypes.string.isRequired,
-    rating: propTypes.number.isRequired,
-    stock: propTypes.number.isRequired,
-    price: propTypes.number.isRequired,
-    discountPercentage: propTypes.number.isRequired,
-    title: propTypes.string.isRequired,
-    images: propTypes.array
+    _id: propTypes.string,
+    rating: propTypes.number,
+    stock: propTypes.number,
+    price: propTypes.number,
+    discountPercentage: propTypes.number,
+    title: propTypes.string,
+    images: propTypes.array,
+    image: propTypes.string
 }
 
 export default ProductCard

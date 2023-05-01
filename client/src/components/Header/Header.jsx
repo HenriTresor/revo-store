@@ -62,24 +62,19 @@ const Header = () => {
                     <li id='category-li'>
                         <CategoryRounded />
                         <div className="dropdown">
-                            <Link to='/products/category/?category=laptops'>
-                                <li>Laptops</li>
+                            <Link to='/products/category/?category=electronics'>
+                                <li>electronics</li>
                             </Link>
-                            <Link to='/products/category/?category=smartphones'>
-                                <li>Smartphones</li>
+                            <Link to='/products/category/?category=jewelery'>
+                                <li>jewelery</li>
                             </Link>
-                            <Link to='/products/category/?category=fragrances'>
-                                <li>Fragrances</li>
+                            <Link to={`/products/category/?category=men's clothing`}>
+                                <li>Men&apos; clothing</li>
                             </Link>
-                            <Link to='/products/category/?category=home-decoration'>
-                                <li>Home decorations</li>
+                            <Link to={`/products/category/?category=women's clothing`}>
+                                <li>Women&apos;clothing</li>
                             </Link>
-                            <Link to='/products/category/?category=groceries'>
-                                <li>Groceries</li>
-                            </Link>
-                            <Link to='/products/category/?category=skincare'>
-                                <li>skin care</li>
-                            </Link>
+                            
                         </div>
                     </li>
 
