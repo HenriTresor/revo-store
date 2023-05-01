@@ -39,7 +39,7 @@ const Login = () => {
   const handleSubmit = async () => {
     try {
       setIsLoading(true)
-      const res = await fetch(`${rootLink}/api/v1/auth/login`, {
+      const res = await fetch(`${rootLink}api/v1/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

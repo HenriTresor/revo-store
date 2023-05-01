@@ -14,7 +14,7 @@ const ProductsByCategory = () => {
     const params = new URLSearchParams(search)
     const category = params.get('category')
 
-    const { data, isLoading, error } = useFetch(`${rootLink}/api/v1/products/search?category=${category
+    const { data, isLoading, error } = useFetch(`${rootLink}api/v1/products/search?category=${category
         }`)
     const [products, setProducts] = useState([])
     useEffect(() => {

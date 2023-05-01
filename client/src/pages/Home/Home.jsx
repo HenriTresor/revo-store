@@ -28,7 +28,7 @@ const Home = () => {
         max: 10
     })
 
-    const { data, error, isLoading } = useFetch(`${rootLink}/api/v1/products`)
+    const { data, error, isLoading } = useFetch(`${rootLink}api/v1/products`)
 
     useEffect(() => {
         // console.log(data);

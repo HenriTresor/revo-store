@@ -31,12 +31,14 @@ const SingleProduct = () => {
     useEffect(() => {
         setProduct(data?.product)
     }, [data])
-    const { data: second_data } = useFetch(`${rootLink}/api/v1/products/search?category=${product?.category}`)
+    const { data: second_data } = useFetch(`${rootLink}api/v1/products/search?category=${product?.category}`)
 
     useEffect(() => {
         console.log(second_data);
         setSimilarProducts(second_data?.products)
     }, [second_data])
+
+
     return (
         <div
             style={{ display: 'grid', placeContent: 'center' }}
@@ -92,7 +94,7 @@ const SingleProduct = () => {
                         <Grid item xs={12} sm={6} md={4}>
                             <Card
                                 variant='outlined'
-                                sx={{ p: 4, mt:5 }}
+                                sx={{ p: 4, mt: 5 }}
                             >
                                 <Typography
                                     variant='h5'
@@ -154,31 +156,32 @@ const SingleProduct = () => {
                                     <Typography>
                                         {product?.rating}
                                     </Typography>
+                                </Box>
+                                {
+                                    !isLoggedIn && (
+                                        <Box
+                                            sx={{ p: 1 }}
+                                        >
+                                            <Typography
+                                                color='error'
+                                            >You need to login to add to cart!</Typography>
                                         </Box>
-                                        {
-                                            !isLoggedIn && (
-                                                <Box
-                                                    sx={{ p: 1 }}
-                                                >
-                                                    <Typography
-                                                        color='error'
-                                                    >You need to login to add to cart!</Typography>
-                                                </Box>
-                                            )
-                                        }
+                                    )
+                                }
                                 <Box
                                     sx={{
                                         display: 'flex',
                                         gap: 2
                                     }}
-                                        >
-                                            
+                                >
+
                                     <Button
                                         disabled={cart?.find(cartItem => cartItem?._id === product?._id) || !isLoggedIn}
                                         onClick={() => {
                                             setCartItemsNumber(prev => prev + 1)
-                                            localStorage.setItem('cart', JSON.stringify([...JSON.parse(localStorage.getItem('cart')), { ...product, addedToCart: true }]))
-                                            setCart(prev => [...prev, product])
+                                            localStorage.setItem('cart', JSON.stringify([...JSON.parse(localStorage.getItem('cart')), { ...product, addedToCart: true, no: 1 }]))
+                                            setCart(prev => [...prev, { ...product, addedToCart: true, no: 1 }])
+
                                         }}
                                         color='info'
                                         variant='contained'

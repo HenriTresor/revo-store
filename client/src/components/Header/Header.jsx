@@ -112,7 +112,7 @@ const Header = () => {
                                 <div
                                     className='dropdown'
                                 >
-                                    <li>view profile</li>
+                                    <li>Update your preferences</li>
                                     <li
                                         onClick={() => {
                                             localStorage.clear('token')

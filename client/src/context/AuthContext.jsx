@@ -18,7 +18,7 @@ const AuthContext = ({ children }) => {
     }
 
     const token = localStorage.getItem('token')
-    const { data, isLoading, error } = useFetch(`${rootLink}/api/v1/users/me`, token)
+    const { data, isLoading, error } = useFetch(`${rootLink}api/v1/users/me`, token)
     // console.log(data);
 
     useEffect(() => {
@@ -27,7 +27,8 @@ const AuthContext = ({ children }) => {
 
     useEffect(() => {
         if(currentUser) setIsLoggedIn(true)
-    },[currentUser])
+    }, [currentUser])
+    
     return (
         <AuthData.Provider value={values}>{children}</AuthData.Provider>
     )
