@@ -46,7 +46,7 @@ const SingleProduct = () => {
         >
 
             {
-                !isLoading && !error.isError ? (
+                !isLoading && !error.isError && product ? (
                     <Grid
                         container
                         spacing={2}
