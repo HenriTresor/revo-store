@@ -26,7 +26,7 @@ const SingleProduct = () => {
     const { id } = useParams()
     const [product, setProduct] = useState(null)
     const [similarProducts, setSimilarProducts] = useState([])
-    const { data, isLoading, error } = useFetch(`${rootLink}/api/v1/products/${id}`)
+    const { data, isLoading, error } = useFetch(`${rootLink}api/v1/products/${id}`)
     console.log(data);
     useEffect(() => {
         setProduct(data?.product)
