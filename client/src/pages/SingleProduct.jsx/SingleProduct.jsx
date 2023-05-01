@@ -46,11 +46,7 @@ const SingleProduct = () => {
         >
 
             {
-                isLoading ? (
-                    <Loading />
-                ) : error.isError ? (
-                    <h1>error occured</h1>
-                ) : (
+                !isLoading && !error.isError ? (
                     <Grid
                         container
                         spacing={2}
@@ -213,6 +209,10 @@ const SingleProduct = () => {
                             </Grid>
                         </Grid>
                     </Grid>
+                ) : error.isError ? (
+                    <h1>error occured</h1>
+                ) : (
+                    <Loading />
                 )
             }
 
