@@ -5,6 +5,9 @@ import { AuthData } from './context/AuthContext.jsx'
 import Header from './components/Header/Header.jsx'
 import UserCart from './pages/UserCart/UserCart.jsx'
 import ProductsByCategory from './pages/ProductsByCategory/ProductsByCategory.jsx'
+import DialogContext from './context/DialogContext.jsx'
+import DialogContainer from './components/Dialogs/DialogContainer.jsx'
+// import PreferencesDialog from './components/Dialogs/PreferencesDialog/PreferencesDialog.jsx'
 const Profile = lazy(() => import('./pages/Profile'))
 const VendorDashboard = lazy(() => import('./pages/VendorDashboard'))
 const Signup = lazy(() => import('./pages/Signup'))
@@ -25,9 +28,10 @@ function App() {
   return (
 
     <>
- 
-        isLoggedIn && <Header />
-  
+      <DialogContext>
+        <Header />
+        <DialogContainer />
+      </DialogContext>
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path='/login' element={<Login />} />

@@ -4,7 +4,7 @@ const productSchema = new Schema(
     {
         title: { type: String, required: true, trim: true },
         description: { type: String, required: true },
-        discountPercentage: { type: Number, required: true },
+        discountPercentage: { type: Number ,default:null },
         stock: { type: Number, required: true, default:100 },
         category: { type: String, required: true, trim: true },
         brand: { type: String, required: true },
