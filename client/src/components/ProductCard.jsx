@@ -18,7 +18,7 @@ const ProductCard = (props) => {
 
     const navigate = useNavigate()
     const { setCartItemsNumber, setCart, cart } = useContext(AppData)
-    const { isLoggedIn } = useContext(AuthData)
+    const { isLoggedIn, currentUser } = useContext(AuthData)
     console.log(props);
 
 
@@ -76,7 +76,7 @@ const ProductCard = (props) => {
                                 }$
                             </Typography>
                         )
-                   }
+                    }
                 </Box>
                 <Box
                     sx={{
@@ -98,10 +98,10 @@ const ProductCard = (props) => {
                 {
                     !isLoggedIn && (
                         <Box
-                        sx={{p:1}}
+                            sx={{ p: 1 }}
                         >
                             <Typography
-                            color='error'
+                                color='error'
                             >You need to login to add to cart!</Typography>
                         </Box>
                     )
@@ -112,9 +112,9 @@ const ProductCard = (props) => {
                         gap: 2
                     }}
                 >
-                    
+
                     <Button
-                        disabled={cart?.find(cartItem => cartItem?._id === props?._id) || !isLoggedIn}
+                        disabled={cart?.find(cartItem => cartItem?._id === props?._id) || !isLoggedIn || currentUser?._id === props.vendor?._id}
                         onClick={() => {
                             setCartItemsNumber(prev => prev + 1)
                             localStorage.setItem('cart', JSON.stringify([...JSON.parse(localStorage.getItem('cart')), { ...props, addedToCart: true, no: 1 }]))

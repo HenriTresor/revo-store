@@ -16,8 +16,10 @@ import {
 import { AuthData } from '../../context/AuthContext'
 import './Header.css'
 import { AppData } from '../../context/AppContext'
+import { DialogData } from '../../context/DialogContext'
 
 const Header = () => {
+    const { modalRef, newProductModalRef } = useContext(DialogData)
     const { currentUser, isLoggedIn, setIsLoggedIn, setCurrentUser } = useContext(AuthData)
     const { cartItemsNumber } = useContext(AppData)
     return (
@@ -74,7 +76,7 @@ const Header = () => {
                             <Link to={`/products/category/?category=women's clothing`}>
                                 <li>Women&apos;clothing</li>
                             </Link>
-                            
+
                         </div>
                     </li>
 
@@ -107,7 +109,16 @@ const Header = () => {
                                 <div
                                     className='dropdown'
                                 >
-                                    <li>Update your preferences</li>
+                                    {
+                                        currentUser?.role === 'vendor' && (
+                                            <li
+                                            onClick={()=>newProductModalRef.current?.showModal()}
+                                            >Add new product</li>
+                                        )
+                                   }
+                                    <li
+                                        onClick={() => modalRef.current.showModal()}
+                                    >Update your preferences</li>
                                     <li
                                         onClick={() => {
                                             localStorage.clear('token')

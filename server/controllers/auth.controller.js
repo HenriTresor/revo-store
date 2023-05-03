@@ -22,7 +22,7 @@ export const loginUser = async (req, res, next) => {
         res.status(200).json({
             status: true,
             token,
-            user: _.pick(user, ['email', 'fullNames', 'role'])
+            user: _.pick(user, ['_id','email', 'fullNames', 'role'])
         })
     } catch (error) {
         next(errorResponse(error.message, 500))

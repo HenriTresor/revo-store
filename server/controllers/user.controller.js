@@ -30,7 +30,7 @@ export const createUser = async (req, res, next) => {
         res.status(201).json({
             status: true,
             token,
-            user: _.pick(newUser, ['email', 'fullNames', 'role'])
+            user: _.pick(newUser, ['_id', 'email', 'fullNames', 'role'])
         })
     } catch (error) {
         next(errorResponse(error.message, 500))
@@ -46,7 +46,7 @@ export const getMe = async (req, res, next) => {
         console.log(user);
         res.status(200).json({
             status: true,
-            user: _.pick(user, ['email', 'fullNames', 'role'])
+            user: _.pick(user, ['_id', 'email', 'fullNames', 'role'])
         })
     } catch (error) {
         next(errorResponse(error.message, 500))
